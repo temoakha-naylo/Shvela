@@ -1,0 +1,13 @@
+# Binary reference assets — kept on disk, not tracked (see CLAUDE.md).
+# Competitor screenshots, template mockup, and the benchmark PDF are reference
+# material, not part of the deployable site. The repo tracks only HTML/MD source.
+*.png
+*.webp
+*.pdf
+
+# OS / editor cruft
+Thumbs.db
+Desktop.ini
+.DS_Store
+.vscode/
+.idea/
