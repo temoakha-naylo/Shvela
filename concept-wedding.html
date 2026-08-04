@@ -1,0 +1,301 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Tamar Beridze — Wedding Photographer · KADRI concept build</title>
+<meta name="description" content="A KADRI concept build — a fictional wedding photographer's portfolio, demonstrating the by-couple story structure. Not a real photographer.">
+<style>
+/* ============================================================
+   KADRI concept build — WEDDING
+   Fictional photographer "Tamar Beridze". Not a real person.
+   Reuses the KADRI design tokens so index + concepts read as
+   one system. Demonstrates benchmark pattern: by-couple stories.
+   ============================================================ */
+:root{
+  --bg:#0a0a0b;--bg2:#0e0e11;--panel:#131317;--panel2:#1a1a1f;
+  --line:#26262e;--line2:#33333d;--ink:#f2f2f5;--muted:#8e8e9a;--faint:#63636e;
+  --gold:#c8a465;--gold-bright:#e0bd82;--radius:14px;--maxw:1180px;
+  --font:system-ui,-apple-system,"Segoe UI",Roboto,"Noto Sans Georgian",Sylfaen,"BPG Arial",sans-serif;
+  --serif:"Iowan Old Style","Palatino Linotype",Palatino,Georgia,"Noto Serif Georgian",serif;
+}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{margin:0;background:var(--bg);color:var(--ink);font-family:var(--font);
+  line-height:1.65;-webkit-font-smoothing:antialiased;overflow-x:hidden}
+h1,h2,h3{margin:0;font-weight:500;line-height:1.12}
+p{margin:0}
+a{color:inherit;text-decoration:none}
+img{max-width:100%;display:block}
+.wrap{max-width:var(--maxw);margin:0 auto;padding:0 24px}
+
+/* grain + placeholder, shared with index */
+.grain::before{content:"";position:absolute;inset:0;pointer-events:none;opacity:.26;
+  background-image:url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='140' height='140'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='.85' numOctaves='3'/><feColorMatrix type='saturate' values='0'/></filter><rect width='140' height='140' filter='url(%23n)' opacity='.5'/></svg>")}
+.ph{position:relative;overflow:hidden;border:1px solid var(--line);border-radius:var(--radius);
+  background:radial-gradient(120% 100% at 30% 12%,rgba(200,164,101,.15),transparent 60%),linear-gradient(158deg,#1d1d22,#111114 55%,#0b0b0d)}
+.ph .ph-tag{position:absolute;left:14px;bottom:12px;z-index:2;font-size:10.5px;letter-spacing:.16em;
+  text-transform:uppercase;color:var(--faint);border:1px solid var(--line2);border-radius:20px;
+  padding:4px 10px;background:rgba(10,10,11,.6);backdrop-filter:blur(4px)}
+
+/* ---- concept banner: unmissable, always visible ---- */
+.concept-bar{position:sticky;top:0;z-index:80;background:var(--gold);color:#0a0a0b;
+  font-size:12.5px;letter-spacing:.02em;font-weight:600;text-align:center;padding:8px 16px}
+.concept-bar a{text-decoration:underline;font-weight:700}
+
+/* ---- nav (lean, per benchmark) ---- */
+.nav{position:sticky;top:34px;z-index:70;background:rgba(10,10,11,.8);backdrop-filter:blur(14px);
+  border-bottom:1px solid var(--line)}
+.nav-in{display:flex;align-items:center;height:64px;gap:22px}
+.brand{font-family:var(--serif);font-size:22px;letter-spacing:.04em}
+.nav-links{display:flex;gap:26px;margin-left:auto}
+.nav-links a{font-size:14px;color:var(--muted);transition:color .18s}
+.nav-links a:hover{color:var(--ink)}
+.lang{display:flex;border:1px solid var(--line2);border-radius:20px;overflow:hidden;margin-left:8px}
+.lang button{background:none;border:0;color:var(--faint);font:inherit;font-size:12px;padding:5px 11px;cursor:pointer;letter-spacing:.06em}
+.lang button[aria-pressed="true"]{background:var(--gold);color:#0a0a0b;font-weight:600}
+.menu-btn{display:none;background:none;border:0;color:var(--ink);cursor:pointer;padding:6px}
+
+/* ---- hero: image-led, minimal (Porodina/Kelley) ---- */
+.hero{position:relative;min-height:78vh;display:flex;align-items:flex-end;overflow:hidden}
+.hero .ph{position:absolute;inset:0;border:0;border-radius:0}
+.hero-grad{position:absolute;inset:0;z-index:1;background:linear-gradient(180deg,rgba(10,10,11,.1),rgba(10,10,11,.85))}
+.hero-in{position:relative;z-index:2;padding:0 0 60px;width:100%}
+.hero .kick{font-size:11.5px;letter-spacing:.24em;text-transform:uppercase;color:var(--gold);margin-bottom:16px}
+.hero h1{font-family:var(--serif);font-size:clamp(40px,7vw,84px);letter-spacing:.01em;line-height:1;margin-bottom:18px}
+.hero p{color:var(--muted);font-size:clamp(15px,1.6vw,18px);max-width:52ch}
+
+/* ---- sections ---- */
+.section{padding:96px 0;border-top:1px solid var(--line)}
+.eyebrow{font-size:11.5px;letter-spacing:.2em;text-transform:uppercase;color:var(--gold);margin-bottom:16px;font-weight:600}
+.h2{font-family:var(--serif);font-size:clamp(26px,3.6vw,40px);letter-spacing:.01em}
+.lede{color:var(--muted);font-size:17px;max-width:600px;margin-top:14px}
+
+/* ---- by-couple story galleries (the benchmark structure) ---- */
+.stories{display:grid;gap:64px;margin-top:52px}
+.story{display:grid;grid-template-columns:1fr 1fr;gap:14px;align-items:stretch}
+.story:nth-child(even){direction:rtl}
+.story:nth-child(even) > *{direction:ltr}
+.story .lead{grid-row:span 2;aspect-ratio:4/5}
+.story .sm{aspect-ratio:4/3}
+.story .cap{align-self:center;padding:8px 4px}
+.story .cap h3{font-family:var(--serif);font-size:26px;margin-bottom:8px}
+.story .cap .meta{font-size:12.5px;letter-spacing:.14em;text-transform:uppercase;color:var(--faint);margin-bottom:14px}
+.story .cap p{color:var(--muted);font-size:14.5px}
+.story .cap a{color:var(--gold);font-size:14px;display:inline-block;margin-top:14px}
+
+/* ---- press / proof wall ---- */
+.press{display:flex;flex-wrap:wrap;gap:14px;margin-top:36px}
+.press span{border:1px solid var(--line);border-radius:8px;padding:14px 22px;color:var(--faint);
+  font-family:var(--serif);font-size:17px;letter-spacing:.03em}
+.quote{margin-top:44px;max-width:760px}
+.quote p{font-family:var(--serif);font-size:clamp(20px,2.6vw,28px);line-height:1.4;color:var(--ink)}
+.quote .who{margin-top:18px;font-size:13px;letter-spacing:.1em;text-transform:uppercase;color:var(--faint)}
+
+/* ---- services split (weddings vs family, per Ladru) ---- */
+.svcs{display:grid;grid-template-columns:1fr 1fr;gap:18px;margin-top:44px}
+.svc{background:var(--panel);border:1px solid var(--line);border-radius:var(--radius);padding:30px}
+.svc h3{font-family:var(--serif);font-size:22px;margin-bottom:8px}
+.svc p{color:var(--muted);font-size:14.5px;margin-bottom:16px}
+.svc .from{font-size:13px;color:var(--faint)}
+.svc .from b{color:var(--gold);font-size:19px;font-weight:600}
+
+/* ---- CTA ---- */
+.cta{text-align:center;padding:104px 0}
+.cta h2{font-family:var(--serif);font-size:clamp(28px,4.4vw,48px);margin-bottom:18px}
+.cta p{color:var(--muted);font-size:16px;max-width:46ch;margin:0 auto 30px}
+.btn{display:inline-flex;align-items:center;gap:8px;border-radius:8px;padding:14px 26px;font-size:15px;
+  font-weight:600;cursor:pointer;border:1px solid transparent;transition:.18s}
+.btn-gold{background:var(--gold);color:#0a0a0b}
+.btn-gold:hover{background:var(--gold-bright)}
+
+/* ---- footer: concept attribution ---- */
+footer{border-top:1px solid var(--line);padding:40px 0 60px;color:var(--faint);font-size:13px}
+.f-in{display:flex;flex-wrap:wrap;gap:18px;justify-content:space-between;align-items:center}
+.f-in a{color:var(--gold)}
+.disc{margin-top:22px;font-size:12.5px;color:var(--faint);max-width:70ch;line-height:1.6}
+
+@media(max-width:820px){
+  .section{padding:70px 0}
+  .story,.story:nth-child(even){grid-template-columns:1fr;direction:ltr}
+  .story .lead{grid-row:auto;aspect-ratio:4/3}
+  .svcs{grid-template-columns:1fr}
+  .nav-links{display:none;position:absolute;top:64px;left:0;right:0;background:var(--bg2);
+    border-bottom:1px solid var(--line);flex-direction:column;gap:0;padding:8px 24px 18px}
+  .nav-links.open{display:flex}
+  .nav-links a{padding:12px 0;border-bottom:1px solid var(--line);font-size:15px}
+  .menu-btn{display:block;margin-left:auto}
+  .nav-in{gap:12px}
+}
+:focus-visible{outline:2px solid var(--gold);outline-offset:3px}
+</style>
+</head>
+<body>
+
+<!-- CONCEPT BANNER — never hidden -->
+<div class="concept-bar">
+  <span data-en="CONCEPT BUILD — a fictional portfolio by KADRI. “Tamar Beridze” is not a real photographer."
+        data-ka="საკონცეპციო ვერსია — გამოგონილი პორტფოლიო KADRI-სგან. „თამარ ბერიძე“ არ არის რეალური ფოტოგრაფი.">CONCEPT BUILD — a fictional portfolio by KADRI. “Tamar Beridze” is not a real photographer.</span>
+  <a href="index.html" data-en="← Back to KADRI" data-ka="← KADRI-ზე დაბრუნება">← Back to KADRI</a>
+</div>
+
+<header class="nav">
+  <div class="wrap nav-in">
+    <a href="#top" class="brand">Tamar Beridze</a>
+    <nav class="nav-links" id="navLinks">
+      <a href="#stories" data-en="Weddings" data-ka="ქორწილები">Weddings</a>
+      <a href="#services" data-en="Services" data-ka="სერვისები">Services</a>
+      <a href="#about" data-en="About" data-ka="ჩემ შესახებ">About</a>
+      <a href="#contact" data-en="Contact" data-ka="კონტაქტი">Contact</a>
+    </nav>
+    <div class="lang" role="group" aria-label="Language">
+      <button type="button" data-lang="en" aria-pressed="true">EN</button>
+      <button type="button" data-lang="ka" aria-pressed="false">ქარ</button>
+    </div>
+    <button class="menu-btn" id="menuBtn" aria-label="Menu" aria-expanded="false">
+      <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M3 6h18M3 12h18M3 18h18"/></svg>
+    </button>
+  </div>
+</header>
+
+<!-- HERO -->
+<section class="hero" id="top">
+  <div class="ph grain"><span class="ph-tag">hero — full-bleed wedding frame</span></div>
+  <div class="hero-grad"></div>
+  <div class="wrap hero-in">
+    <p class="kick" data-en="Journalistic wedding photography · Tbilisi &amp; worldwide"
+                    data-ka="ჟურნალისტური საქორწილო ფოტოგრაფია · თბილისი და მთელი მსოფლიო">Journalistic wedding photography · Tbilisi &amp; worldwide</p>
+    <h1 data-en="Tamar Beridze" data-ka="თამარ ბერიძე">Tamar Beridze</h1>
+    <p data-en="I photograph the day as it actually happens — the unrepeatable, unposed, in-between moments. Available for commissions worldwide."
+       data-ka="ვიღებ დღეს ისე, როგორც ის მართლა ხდება — განუმეორებელ, დაუდგმელ, შუალედურ წამებს. ვმუშაობ მთელ მსოფლიოში.">I photograph the day as it actually happens — the unrepeatable, unposed, in-between moments. Available for commissions worldwide.</p>
+  </div>
+</section>
+
+<!-- BY-COUPLE STORIES -->
+<section class="section" id="stories">
+  <div class="wrap">
+    <p class="eyebrow" data-en="Weddings" data-ka="ქორწილები">Weddings</p>
+    <h2 class="h2" data-en="Every wedding is one full story." data-ka="ყოველი ქორწილი ერთი სრული ამბავია.">Every wedding is one full story.</h2>
+    <p class="lede" data-en="Not a grid of highlights. Each couple gets their own gallery, start to finish."
+                    data-ka="და არა რჩეული კადრების ბადე. ყოველ წყვილს აქვს თავისი გალერეა — დასაწყისიდან ბოლომდე.">Not a grid of highlights. Each couple gets their own gallery, start to finish.</p>
+
+    <div class="stories">
+      <article class="story">
+        <div class="ph grain lead"><span class="ph-tag">lead frame</span></div>
+        <div class="ph grain sm"><span class="ph-tag">detail</span></div>
+        <div class="cap">
+          <div class="meta">Kakheti · September</div>
+          <h3 data-en="Nino &amp; Luka" data-ka="ნინო და ლუკა">Nino &amp; Luka</h3>
+          <p data-en="A vineyard wedding at golden hour, three generations under one supra table."
+             data-ka="საქორწილო ვენახში მზის ჩასვლისას, სამი თაობა ერთ სუფრასთან.">A vineyard wedding at golden hour, three generations under one supra table.</p>
+          <a href="#contact" data-en="View the full story →" data-ka="იხილე სრული ამბავი →">View the full story →</a>
+        </div>
+      </article>
+
+      <article class="story">
+        <div class="ph grain lead"><span class="ph-tag">lead frame</span></div>
+        <div class="ph grain sm"><span class="ph-tag">detail</span></div>
+        <div class="cap">
+          <div class="meta">Tbilisi · June</div>
+          <h3 data-en="Salome &amp; Data" data-ka="სალომე და დათა">Salome &amp; Data</h3>
+          <p data-en="An old-town ceremony that spilled into the streets of Sololaki until midnight."
+             data-ka="ძველი ქალაქის ცერემონია, რომელიც შუაღამემდე გადავიდა სოლოლაკის ქუჩებში.">An old-town ceremony that spilled into the streets of Sololaki until midnight.</p>
+          <a href="#contact" data-en="View the full story →" data-ka="იხილე სრული ამბავი →">View the full story →</a>
+        </div>
+      </article>
+
+      <article class="story">
+        <div class="ph grain lead"><span class="ph-tag">lead frame</span></div>
+        <div class="ph grain sm"><span class="ph-tag">detail</span></div>
+        <div class="cap">
+          <div class="meta">Svaneti · August</div>
+          <h3 data-en="Ana &amp; Giorgi" data-ka="ანა და გიორგი">Ana &amp; Giorgi</h3>
+          <p data-en="An elopement in the mountains — two people, one witness, and the towers of Ushguli."
+             data-ka="ქორწილი მთებში — ორი ადამიანი, ერთი მოწმე და უშგულის კოშკები.">An elopement in the mountains — two people, one witness, and the towers of Ushguli.</p>
+          <a href="#contact" data-en="View the full story →" data-ka="იხილე სრული ამბავი →">View the full story →</a>
+        </div>
+      </article>
+    </div>
+  </div>
+</section>
+
+<!-- PROOF -->
+<section class="section">
+  <div class="wrap">
+    <p class="eyebrow" data-en="Featured in" data-ka="გამოქვეყნებულია">Featured in</p>
+    <div class="press">
+      <span>Junebug Weddings</span><span>Vogue Georgia</span><span>Rock My Wedding</span><span>Hello May</span>
+    </div>
+    <div class="quote">
+      <p data-en="“She was invisible all day and then handed us the entire day back. We keep finding moments we didn’t know happened.”"
+         data-ka="„მთელი დღე შეუმჩნეველი იყო, შემდეგ კი მთელი დღე დაგვიბრუნა. დღემდე ვპოულობთ წამებს, რომლებიც არც კი გვახსოვდა.“">“She was invisible all day and then handed us the entire day back. We keep finding moments we didn’t know happened.”</p>
+      <div class="who" data-en="— Nino &amp; Luka, Kakheti" data-ka="— ნინო და ლუკა, კახეთი">— Nino &amp; Luka, Kakheti</div>
+    </div>
+  </div>
+</section>
+
+<!-- SERVICES SPLIT -->
+<section class="section" id="services">
+  <div class="wrap">
+    <p class="eyebrow" data-en="Services" data-ka="სერვისები">Services</p>
+    <h2 class="h2" data-en="Two ways to work together." data-ka="ერთად მუშაობის ორი გზა.">Two ways to work together.</h2>
+    <div class="svcs">
+      <div class="svc">
+        <h3 data-en="Weddings" data-ka="ქორწილები">Weddings</h3>
+        <p data-en="Full-day coverage, a second shooter on request, and every edited frame delivered in an online gallery within four weeks."
+           data-ka="სრული დღის გადაღება, მეორე ფოტოგრაფი მოთხოვნისამებრ და ყველა დამუშავებული კადრი ონლაინ გალერეაში ოთხ კვირაში.">Full-day coverage, a second shooter on request, and every edited frame delivered in an online gallery within four weeks.</p>
+        <div class="from" data-en="From <b>2,500 ₾</b>" data-ka="დან <b>2,500 ₾</b>">From <b>2,500 ₾</b></div>
+      </div>
+      <div class="svc">
+        <h3 data-en="Family &amp; couples" data-ka="ოჯახი და წყვილები">Family &amp; couples</h3>
+        <p data-en="Relaxed sessions in your home or a place that means something to you. An hour, unposed, no studio lights."
+           data-ka="მშვიდი გადაღებები თქვენს სახლში ან თქვენთვის მნიშვნელოვან ადგილას. ერთი საათი, ბუნებრივად, სტუდიური განათების გარეშე.">Relaxed sessions in your home or a place that means something to you. An hour, unposed, no studio lights.</p>
+        <div class="from" data-en="From <b>400 ₾</b>" data-ka="დან <b>400 ₾</b>">From <b>400 ₾</b></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CTA -->
+<section class="cta">
+  <div class="wrap">
+    <h2 data-en="Two dates left for 2026." data-ka="2026 წელს ორი თარიღი დარჩა.">Two dates left for 2026.</h2>
+    <p data-en="Tell me where and when. I reply to every inquiry within a day."
+       data-ka="მომწერე სად და როდის. ყოველ განაცხადს ერთ დღეში ვპასუხობ.">Tell me where and when. I reply to every inquiry within a day.</p>
+    <a href="#contact" class="btn btn-gold" data-en="Check your date" data-ka="შეამოწმე შენი თარიღი">Check your date</a>
+  </div>
+</section>
+
+<footer id="contact">
+  <div class="wrap">
+    <div class="f-in">
+      <span class="brand" style="font-size:20px">Tamar Beridze</span>
+      <span data-en="hello@example.com · @example · Tbilisi" data-ka="hello@example.com · @example · თბილისი">hello@example.com · @example · Tbilisi</span>
+    </div>
+    <p class="disc"
+       data-en="This is a concept build produced by KADRI to demonstrate the by-couple wedding portfolio structure. “Tamar Beridze,” the couples, the reviews and the publications shown are fictional. Photography slots are placeholders. See the real studio at <a href='index.html'>KADRI</a>."
+       data-ka="ეს არის KADRI-ს მიერ შექმნილი საკონცეპციო ვერსია, რომელიც აჩვენებს წყვილებზე დაფუძნებულ საქორწილო პორტფოლიოს სტრუქტურას. „თამარ ბერიძე“, წყვილები, შეფასებები და გამოცემები გამოგონილია. ფოტოების ადგილები დროებითია. ნახე რეალური სტუდია: <a href='index.html'>KADRI</a>.">This is a concept build produced by KADRI to demonstrate the by-couple wedding portfolio structure. “Tamar Beridze,” the couples, the reviews and the publications shown are fictional. Photography slots are placeholders. See the real studio at <a href="index.html">KADRI</a>.</p>
+  </div>
+</footer>
+
+<script>
+/* Shared bilingual toggle — same contract as index.html */
+function setLang(lang){
+  document.documentElement.lang = lang;
+  document.querySelectorAll("[data-en]").forEach(el=>{
+    const v = el.dataset[lang];
+    if(v!==undefined){ if(/<[a-z]/i.test(v)) el.innerHTML = v; else el.textContent = v; }
+  });
+  document.querySelectorAll(".lang button").forEach(b=>b.setAttribute("aria-pressed",String(b.dataset.lang===lang)));
+  try{ localStorage.setItem("kadri-lang",lang); }catch(e){}
+}
+document.querySelectorAll(".lang button").forEach(b=>b.addEventListener("click",()=>setLang(b.dataset.lang)));
+let saved="en"; try{ saved=localStorage.getItem("kadri-lang")||"en"; }catch(e){}
+setLang(saved);
+
+const menuBtn=document.getElementById("menuBtn"), navLinks=document.getElementById("navLinks");
+menuBtn.addEventListener("click",()=>{const o=navLinks.classList.toggle("open");menuBtn.setAttribute("aria-expanded",String(o));});
+navLinks.addEventListener("click",e=>{if(e.target.tagName==="A"){navLinks.classList.remove("open");menuBtn.setAttribute("aria-expanded","false");}});
+</script>
+</body>
+</html>

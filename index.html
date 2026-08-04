@@ -1,0 +1,990 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>KADRI — Portfolio sites that book clients</title>
+<meta name="description" content="A web studio in Tbilisi that builds portfolio sites for photographers only. Fixed prices, fixed timelines, and a booking system that reaches your WhatsApp.">
+<style>
+/* ============================================================
+   KADRI — landing page
+   Built from PRD.md. Dark, image-led, lean nav, KA/EN bilingual.
+   Image slots are marked .ph — drop real photography in.
+   ============================================================ */
+
+:root{
+  --bg:#0a0a0b;
+  --bg2:#0e0e11;
+  --panel:#131317;
+  --panel2:#1a1a1f;
+  --line:#26262e;
+  --line2:#33333d;
+  --ink:#f2f2f5;
+  --muted:#8e8e9a;
+  --faint:#63636e;
+  --gold:#c8a465;
+  --gold-bright:#e0bd82;
+  --ok:#6fbf95;
+  --radius:14px;
+  --maxw:1180px;
+  /* Per-glyph fallback: Latin resolves to the system UI face,
+     Georgian falls through to a face that actually has the glyphs. */
+  --font:system-ui,-apple-system,"Segoe UI",Roboto,"Noto Sans Georgian",Sylfaen,"BPG Arial",sans-serif;
+}
+
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{
+  margin:0;background:var(--bg);color:var(--ink);font-family:var(--font);
+  line-height:1.65;-webkit-font-smoothing:antialiased;overflow-x:hidden;
+}
+h1,h2,h3{line-height:1.15;font-weight:600;margin:0}
+p{margin:0}
+a{color:inherit}
+img{max-width:100%;display:block}
+
+.wrap{max-width:var(--maxw);margin:0 auto;padding:0 24px}
+.section{padding:104px 0;border-top:1px solid var(--line)}
+.eyebrow{
+  font-size:11.5px;letter-spacing:.2em;text-transform:uppercase;
+  color:var(--gold);margin-bottom:18px;font-weight:600;
+}
+.lede{color:var(--muted);font-size:17px;max-width:620px;margin-top:16px}
+.h2{font-size:clamp(26px,3.4vw,38px);letter-spacing:-.02em}
+
+/* grain overlay, self-contained */
+.grain::before{
+  content:"";position:absolute;inset:0;pointer-events:none;opacity:.28;
+  background-image:url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='140' height='140'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='.85' numOctaves='3'/><feColorMatrix type='saturate' values='0'/></filter><rect width='140' height='140' filter='url(%23n)' opacity='.5'/></svg>");
+}
+
+/* ---------- image placeholder ---------- */
+.ph{
+  position:relative;overflow:hidden;border:1px solid var(--line);
+  border-radius:var(--radius);background:
+    radial-gradient(120% 100% at 25% 15%,rgba(200,164,101,.16),transparent 62%),
+    linear-gradient(158deg,#1d1d22 0%,#111114 55%,#0b0b0d 100%);
+}
+.ph .ph-tag{
+  position:absolute;left:14px;bottom:12px;z-index:2;
+  font-size:10.5px;letter-spacing:.16em;text-transform:uppercase;
+  color:var(--faint);border:1px solid var(--line2);border-radius:20px;
+  padding:4px 10px;background:rgba(10,10,11,.6);backdrop-filter:blur(4px);
+}
+
+/* ---------- nav ---------- */
+header.nav{
+  position:sticky;top:0;z-index:60;background:rgba(10,10,11,.82);
+  backdrop-filter:blur(14px);border-bottom:1px solid var(--line);
+}
+.nav-in{display:flex;align-items:center;gap:24px;height:66px}
+.brand{font-size:16px;letter-spacing:.28em;font-weight:600;text-decoration:none;white-space:nowrap}
+.brand span{color:var(--gold)}
+.nav-links{display:flex;gap:26px;margin-left:auto}
+.nav-links a{
+  font-size:14px;color:var(--muted);text-decoration:none;transition:color .18s;
+}
+.nav-links a:hover{color:var(--ink)}
+.nav-right{display:flex;align-items:center;gap:14px}
+
+.lang{display:flex;border:1px solid var(--line2);border-radius:20px;overflow:hidden}
+.lang button{
+  background:transparent;border:0;color:var(--faint);font:inherit;font-size:12px;
+  padding:5px 11px;cursor:pointer;transition:.18s;letter-spacing:.06em;
+}
+.lang button[aria-pressed="true"]{background:var(--gold);color:#0a0a0b;font-weight:600}
+
+.btn{
+  display:inline-flex;align-items:center;justify-content:center;gap:8px;
+  border-radius:8px;padding:12px 20px;font-size:14.5px;font-weight:600;
+  text-decoration:none;cursor:pointer;border:1px solid transparent;
+  transition:transform .16s,background .18s,border-color .18s;white-space:nowrap;
+}
+.btn:active{transform:translateY(1px)}
+.btn-gold{background:var(--gold);color:#0a0a0b}
+.btn-gold:hover{background:var(--gold-bright)}
+.btn-ghost{border-color:var(--line2);color:var(--ink)}
+.btn-ghost:hover{border-color:var(--gold);color:var(--gold)}
+.btn-sm{padding:9px 15px;font-size:13.5px}
+
+.menu-btn{display:none;background:none;border:0;color:var(--ink);cursor:pointer;padding:6px}
+
+/* ---------- hero ---------- */
+.hero{position:relative;min-height:clamp(560px,86vh,820px);display:flex;align-items:center;overflow:hidden}
+.hero-bg{
+  position:absolute;inset:0;z-index:0;background:
+    radial-gradient(80% 60% at 72% 30%,rgba(200,164,101,.20),transparent 65%),
+    radial-gradient(60% 55% at 15% 85%,rgba(90,110,160,.12),transparent 70%),
+    linear-gradient(180deg,#101015 0%,#0a0a0b 70%);
+}
+.hero-in{position:relative;z-index:2;padding:88px 0 72px;width:100%}
+.hero h1{
+  font-size:clamp(38px,6.4vw,74px);letter-spacing:-.035em;max-width:15ch;margin-bottom:22px;
+}
+.hero .sub{font-size:clamp(16px,1.7vw,19px);color:var(--muted);max-width:56ch}
+.hero-cta{display:flex;flex-wrap:wrap;gap:12px;margin-top:34px;align-items:center}
+.hero-note{font-size:13px;color:var(--faint);margin-top:14px}
+.hero-strip{
+  position:relative;z-index:2;display:flex;flex-wrap:wrap;gap:10px 28px;
+  border-top:1px solid var(--line);padding:20px 0;font-size:13px;color:var(--faint);
+}
+.hero-strip b{color:var(--muted);font-weight:500}
+
+/* ---------- trigger cards ---------- */
+.grid-3{display:grid;grid-template-columns:repeat(3,1fr);gap:18px;margin-top:44px}
+.card{
+  background:var(--panel);border:1px solid var(--line);border-radius:var(--radius);padding:26px;
+}
+.card h3{font-size:16.5px;margin-bottom:9px}
+.card p{color:var(--muted);font-size:14.5px}
+.card .num{
+  font-size:11px;letter-spacing:.18em;color:var(--gold);margin-bottom:14px;display:block;font-weight:600;
+}
+
+/* ---------- spine ---------- */
+.spine{display:grid;grid-template-columns:repeat(5,1fr);gap:0;margin-top:48px}
+.step{position:relative;padding:26px 20px 26px 0}
+.step:not(:last-child)::after{
+  content:"";position:absolute;right:14px;top:34px;width:8px;height:8px;
+  border-top:1.5px solid var(--line2);border-right:1.5px solid var(--line2);
+  transform:rotate(45deg);
+}
+.step .dot{
+  width:30px;height:30px;border-radius:50%;border:1px solid var(--gold);
+  color:var(--gold);display:grid;place-items:center;font-size:12.5px;font-weight:600;margin-bottom:16px;
+}
+.step h4{font-size:14.5px;margin:0 0 6px;font-weight:600}
+.step p{font-size:13.5px;color:var(--muted);line-height:1.55}
+
+/* ---------- founding slots ---------- */
+.slots{display:grid;grid-template-columns:repeat(3,1fr);gap:18px;margin-top:40px}
+.slot .ph{aspect-ratio:4/5;display:grid;place-items:center}
+a.ph{text-decoration:none;transition:border-color .2s,transform .2s}
+a.ph:hover{border-color:var(--gold);transform:translateY(-3px)}
+a.ph:hover .slot-lbl .n{color:var(--gold)}
+a.ph:hover .ph-tag{color:var(--gold);border-color:var(--gold)}
+.slot-lbl{
+  text-align:center;padding:0 22px;
+}
+.slot-lbl .n{
+  font-size:38px;font-weight:600;color:var(--line2);letter-spacing:-.02em;display:block;line-height:1;
+}
+.slot-lbl .t{font-size:12px;letter-spacing:.16em;text-transform:uppercase;color:var(--faint);margin-top:12px;display:block}
+.slot-meta{margin-top:14px}
+.slot-meta h4{font-size:15px;margin:0 0 4px;font-weight:600}
+.slot-meta p{font-size:13.5px;color:var(--faint)}
+
+.offer{
+  margin-top:38px;background:var(--panel);border:1px solid var(--line);
+  border-left:3px solid var(--gold);border-radius:0 var(--radius) var(--radius) 0;padding:26px 28px;
+}
+.offer h3{font-size:17px;margin-bottom:10px}
+.offer p{color:var(--muted);font-size:14.5px;max-width:70ch}
+.offer ul{margin:14px 0 0;padding-left:18px;color:var(--muted);font-size:14.5px}
+.offer li{margin-bottom:5px}
+
+/* ---------- packages ---------- */
+.pkgs{display:grid;grid-template-columns:repeat(3,1fr);gap:18px;margin-top:48px;align-items:start}
+.pkg{
+  background:var(--panel);border:1px solid var(--line);border-radius:var(--radius);
+  padding:30px 26px;display:flex;flex-direction:column;height:100%;position:relative;
+}
+.pkg.feat{border-color:var(--gold);background:linear-gradient(180deg,#1b1710,#131317 42%)}
+.tag-pop{
+  position:absolute;top:-11px;left:26px;background:var(--gold);color:#0a0a0b;
+  font-size:10.5px;letter-spacing:.14em;text-transform:uppercase;font-weight:700;
+  padding:4px 11px;border-radius:20px;
+}
+.pkg h3{font-size:20px;margin-bottom:4px}
+.pkg .tl{font-size:13px;color:var(--faint);margin-bottom:20px}
+.pkg .price{font-size:34px;font-weight:600;letter-spacing:-.02em;margin-bottom:4px}
+.pkg .price .cur{color:var(--gold);font-size:24px;margin-left:2px}
+.pkg .dep{font-size:12.5px;color:var(--faint);padding-bottom:20px;border-bottom:1px solid var(--line);margin-bottom:20px}
+.pkg ul{list-style:none;padding:0;margin:0 0 26px;flex:1}
+.pkg li{
+  font-size:14px;color:var(--muted);padding-left:22px;position:relative;margin-bottom:10px;line-height:1.5;
+}
+.pkg li::before{
+  content:"";position:absolute;left:2px;top:8px;width:5px;height:9px;
+  border-right:1.5px solid var(--gold);border-bottom:1.5px solid var(--gold);transform:rotate(42deg);
+}
+.pkg .btn{width:100%}
+
+.addons{display:grid;grid-template-columns:1fr 1fr;gap:18px;margin-top:18px}
+.addon{
+  background:var(--panel2);border:1px solid var(--line);border-radius:var(--radius);
+  padding:22px 24px;display:flex;gap:20px;align-items:flex-start;
+}
+.addon .amt{font-size:22px;font-weight:600;white-space:nowrap;color:var(--gold)}
+.addon h4{font-size:15px;margin:0 0 5px;font-weight:600}
+.addon p{font-size:13.5px;color:var(--muted)}
+
+/* ---------- process ---------- */
+.proc{margin-top:44px;border-top:1px solid var(--line)}
+.proc-row{
+  display:grid;grid-template-columns:64px 1.1fr 1.4fr;gap:24px;
+  padding:24px 0;border-bottom:1px solid var(--line);align-items:baseline;
+}
+.proc-row .idx{font-size:13px;color:var(--gold);font-weight:600;letter-spacing:.1em}
+.proc-row h4{font-size:17px;margin:0;font-weight:600}
+.proc-row p{color:var(--muted);font-size:14.5px}
+
+/* ---------- about ---------- */
+.about{display:grid;grid-template-columns:1.05fr .95fr;gap:56px;align-items:center}
+.about .ph{aspect-ratio:4/3}
+.no-list{display:flex;flex-wrap:wrap;gap:8px;margin-top:22px}
+.no-list span{
+  font-size:13px;color:var(--faint);border:1px solid var(--line);border-radius:20px;
+  padding:5px 13px;text-decoration:line-through;
+}
+
+/* ---------- testimonials ---------- */
+.quotes{display:grid;grid-template-columns:repeat(3,1fr);gap:18px;margin-top:40px}
+.quote{
+  border:1px dashed var(--line2);border-radius:var(--radius);padding:26px;
+  background:rgba(19,19,23,.5);min-height:200px;display:flex;flex-direction:column;
+}
+.quote .mark{font-size:36px;color:var(--line2);line-height:1;margin-bottom:12px}
+.quote p{color:var(--faint);font-size:14.5px;font-style:italic;flex:1}
+.quote .who{
+  margin-top:18px;padding-top:14px;border-top:1px solid var(--line);
+  font-size:12.5px;color:var(--faint);letter-spacing:.04em;
+}
+
+/* ---------- faq ---------- */
+.faq{margin-top:40px;border-top:1px solid var(--line)}
+details{border-bottom:1px solid var(--line)}
+summary{
+  cursor:pointer;padding:22px 40px 22px 0;font-size:16.5px;font-weight:500;
+  position:relative;list-style:none;transition:color .18s;
+}
+summary::-webkit-details-marker{display:none}
+summary:hover{color:var(--gold)}
+summary::after{
+  content:"";position:absolute;right:8px;top:29px;width:9px;height:9px;
+  border-right:1.5px solid var(--faint);border-bottom:1.5px solid var(--faint);
+  transform:rotate(45deg);transition:transform .2s;
+}
+details[open] summary::after{transform:rotate(-135deg)}
+details .ans{padding:0 0 24px;color:var(--muted);font-size:15px;max-width:76ch}
+
+/* ---------- contact ---------- */
+.contact{display:grid;grid-template-columns:.9fr 1.1fr;gap:56px;align-items:start}
+form{display:grid;gap:14px}
+.f-row{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+label{display:block;font-size:12.5px;color:var(--faint);margin-bottom:6px;letter-spacing:.04em}
+input,select,textarea{
+  width:100%;background:var(--panel);border:1px solid var(--line);border-radius:8px;
+  color:var(--ink);font:inherit;font-size:14.5px;padding:12px 14px;transition:border-color .18s;
+}
+input:focus,select:focus,textarea:focus{outline:none;border-color:var(--gold)}
+textarea{resize:vertical;min-height:104px}
+.form-note{font-size:12.5px;color:var(--faint);margin-top:2px}
+.form-msg{
+  display:none;padding:14px 16px;border-radius:8px;font-size:14px;
+  border:1px solid var(--line2);background:var(--panel2);color:var(--muted);
+}
+.form-msg.on{display:block}
+.form-msg.ok{border-color:var(--ok);color:var(--ok)}
+
+.contact-side p{color:var(--muted);font-size:15px;margin-bottom:20px}
+.ci{display:flex;gap:14px;padding:16px 0;border-top:1px solid var(--line);align-items:baseline}
+.ci .k{font-size:12px;letter-spacing:.14em;text-transform:uppercase;color:var(--faint);min-width:92px}
+.ci .v{font-size:14.5px}
+.ci .v a{color:var(--gold);text-decoration:none}
+.ci .v a:hover{text-decoration:underline}
+
+/* ---------- footer ---------- */
+footer{border-top:1px solid var(--line);padding:44px 0 56px;color:var(--faint);font-size:13px}
+.f-top{display:flex;flex-wrap:wrap;gap:24px;justify-content:space-between;align-items:center;margin-bottom:28px}
+.f-links{display:flex;gap:22px;flex-wrap:wrap}
+.f-links a{color:var(--muted);text-decoration:none;font-size:13.5px}
+.f-links a:hover{color:var(--gold)}
+
+/* ---------- responsive ---------- */
+@media(max-width:960px){
+  .section{padding:76px 0}
+  .grid-3,.slots,.pkgs,.quotes{grid-template-columns:1fr}
+  .spine{grid-template-columns:1fr 1fr}
+  .step::after{display:none}
+  .about,.contact{grid-template-columns:1fr;gap:36px}
+  .addons{grid-template-columns:1fr}
+  .proc-row{grid-template-columns:40px 1fr;row-gap:6px}
+  .proc-row p{grid-column:2}
+  .nav-links{
+    display:none;position:absolute;top:66px;left:0;right:0;background:var(--bg2);
+    border-bottom:1px solid var(--line);flex-direction:column;gap:0;padding:8px 24px 20px;
+  }
+  .nav-links.open{display:flex}
+  .nav-links a{padding:12px 0;border-bottom:1px solid var(--line);font-size:15px}
+  .menu-btn{display:block;order:3}
+  .nav-in{gap:12px}
+  .nav-right .btn{display:none}
+}
+@media(max-width:560px){
+  .spine{grid-template-columns:1fr}
+  .f-row{grid-template-columns:1fr}
+  .hero{min-height:auto}
+  .hero-in{padding:64px 0 48px}
+}
+
+:focus-visible{outline:2px solid var(--gold);outline-offset:3px;border-radius:4px}
+</style>
+</head>
+<body>
+
+<!-- ===================== NAV ===================== -->
+<header class="nav">
+  <div class="wrap nav-in">
+    <a href="#top" class="brand">KADRI<span>.</span></a>
+
+    <nav class="nav-links" id="navLinks">
+      <a href="#work"     data-en="Work"     data-ka="ნამუშევრები">Work</a>
+      <a href="#packages" data-en="Packages" data-ka="პაკეტები">Packages</a>
+      <a href="#process"  data-en="Process"  data-ka="პროცესი">Process</a>
+      <a href="#about"    data-en="About"    data-ka="ჩვენ შესახებ">About</a>
+      <a href="#contact"  data-en="Contact"  data-ka="კონტაქტი">Contact</a>
+    </nav>
+
+    <div class="nav-right">
+      <div class="lang" role="group" aria-label="Language">
+        <button type="button" data-lang="en" aria-pressed="true">EN</button>
+        <button type="button" data-lang="ka" aria-pressed="false">ქარ</button>
+      </div>
+      <a href="#contact" class="btn btn-gold btn-sm"
+         data-en="Book an audit" data-ka="აუდიტის დაჯავშნა">Book an audit</a>
+      <button class="menu-btn" id="menuBtn" aria-label="Menu" aria-expanded="false">
+        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6">
+          <path d="M3 6h18M3 12h18M3 18h18"/>
+        </svg>
+      </button>
+    </div>
+  </div>
+</header>
+
+<!-- ===================== HERO ===================== -->
+<section class="hero grain" id="top">
+  <div class="hero-bg"></div>
+  <div class="wrap hero-in">
+    <p class="eyebrow" data-en="Web studio for photographers · Tbilisi"
+                       data-ka="ვებსტუდია ფოტოგრაფებისთვის · თბილისი">Web studio for photographers · Tbilisi</p>
+
+    <h1 data-en="Portfolio sites that book clients."
+        data-ka="პორტფოლიო, რომელიც ჯავშნებს იღებს.">Portfolio sites that book clients.</h1>
+
+    <p class="sub"
+       data-en="For photographers in Georgia. Your work, an inquiry form that reaches your WhatsApp, and a deposit link that actually gets paid."
+       data-ka="ფოტოგრაფებისთვის საქართველოში. შენი ნამუშევარი, განაცხადის ფორმა, რომელიც პირდაპირ შენს WhatsApp-ზე მოდის, და გადახდის ბმული, რომელსაც მართლა იხდიან.">For photographers in Georgia. Your work, an inquiry form that reaches your WhatsApp, and a deposit link that actually gets paid.</p>
+
+    <div class="hero-cta">
+      <a href="#contact" class="btn btn-gold"
+         data-en="Book a portfolio audit — 150 ₾"
+         data-ka="დაჯავშნე პორტფოლიოს აუდიტი — 150 ₾">Book a portfolio audit — 150 ₾</a>
+      <a href="#packages" class="btn btn-ghost"
+         data-en="See packages" data-ka="ნახე პაკეტები">See packages</a>
+    </div>
+    <p class="hero-note"
+       data-en="Credited in full against any build."
+       data-ka="თანხა სრულად ჩაითვლება ნებისმიერ პროექტში.">Credited in full against any build.</p>
+  </div>
+</section>
+
+<div class="wrap">
+  <div class="hero-strip">
+    <span data-en="Photographers only" data-ka="მხოლოდ ფოტოგრაფებისთვის">Photographers only</span>
+    <span data-en="Fixed price, fixed timeline" data-ka="ფიქსირებული ფასი და ვადა">Fixed price, fixed timeline</span>
+    <span data-en="Georgian + English" data-ka="ქართული + ინგლისური">Georgian + English</span>
+    <span data-en="Built on Webflow — you edit it yourself" data-ka="Webflow-ზე — თავად არედაქტირებ">Built on Webflow — you edit it yourself</span>
+  </div>
+</div>
+
+<!-- ===================== TRIGGER ===================== -->
+<section class="section">
+  <div class="wrap">
+    <p class="eyebrow" data-en="The problem" data-ka="პრობლემა">The problem</p>
+    <h2 class="h2" data-en="You didn't lose the job on price."
+                   data-ka="შეკვეთა ფასის გამო არ დაკარგე.">You didn't lose the job on price.</h2>
+    <p class="lede"
+       data-en="You lost it in the four seconds between a client opening your link and deciding you weren't serious."
+       data-ka="ის დაკარგე იმ ოთხ წამში, სანამ კლიენტმა შენი ბმული გახსნა და გადაწყვიტა, რომ სერიოზული არ ხარ.">You lost it in the four seconds between a client opening your link and deciding you weren't serious.</p>
+
+    <div class="grid-3">
+      <div class="card">
+        <span class="num">01</span>
+        <h3 data-en="It sat in your DMs" data-ka="ის შენს DM-ებში იდო">It sat in your DMs</h3>
+        <p data-en="An inquiry arrived on Instagram at 23:40 on a Friday. You saw it Monday. They booked someone else on Saturday."
+           data-ka="განაცხადი პარასკევს 23:40-ზე შემოვიდა Instagram-ზე. შენ ორშაბათს ნახე. მათ შაბათს სხვა დაიქირავეს.">An inquiry arrived on Instagram at 23:40 on a Friday. You saw it Monday. They booked someone else on Saturday.</p>
+      </div>
+      <div class="card">
+        <span class="num">02</span>
+        <h3 data-en="It opened badly on a phone" data-ka="ტელეფონზე ცუდად გაიხსნა">It opened badly on a phone</h3>
+        <p data-en="An art director opened your site on 4G. Your 8MB hero image was still loading when they closed the tab."
+           data-ka="არტდირექტორმა შენი საიტი 4G-ზე გახსნა. შენი 8MB სურათი ისევ იტვირთებოდა, როცა მან ტაბი დახურა.">An art director opened your site on 4G. Your 8MB hero image was still loading when they closed the tab.</p>
+      </div>
+      <div class="card">
+        <span class="num">03</span>
+        <h3 data-en="You couldn't take the money" data-ka="ვერ მიიღე თანხა">You couldn't take the money</h3>
+        <p data-en="They asked how to pay the deposit. You sent a bank account number and a screenshot. The momentum died there."
+           data-ka="გკითხეს, როგორ გადაეხადათ ავანსი. შენ საბანკო ანგარიში და სქრინშოტი გაუგზავნე. იქვე ჩაკვდა ყველაფერი.">They asked how to pay the deposit. You sent a bank account number and a screenshot. The momentum died there.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ===================== BOOKING SPINE ===================== -->
+<section class="section">
+  <div class="wrap">
+    <p class="eyebrow" data-en="The booking spine" data-ka="ჯავშნის სისტემა">The booking spine</p>
+    <h2 class="h2" data-en="Every site we build ships with this."
+                   data-ka="ყველა საიტი, რომელსაც ვქმნით, ამით მოდის.">Every site we build ships with this.</h2>
+    <p class="lede"
+       data-en="A portfolio that looks good is table stakes. What you are actually buying is the machine underneath it."
+       data-ka="ლამაზი პორტფოლიო მინიმუმია. სინამდვილეში შენ ყიდულობ იმ სისტემას, რომელიც მის უკან დგას.">A portfolio that looks good is table stakes. What you are actually buying is the machine underneath it.</p>
+
+    <div class="spine">
+      <div class="step">
+        <div class="dot">1</div>
+        <h4 data-en="Inquiry arrives" data-ka="განაცხადი შემოდის">Inquiry arrives</h4>
+        <p data-en="Site form, Instagram DM, or WhatsApp. Three doors, one room."
+           data-ka="საიტის ფორმა, Instagram DM ან WhatsApp. სამი კარი, ერთი ოთახი.">Site form, Instagram DM, or WhatsApp. Three doors, one room.</p>
+      </div>
+      <div class="step">
+        <div class="dot">2</div>
+        <h4 data-en="One lead record" data-ka="ერთი ჩანაწერი">One lead record</h4>
+        <p data-en="All three channels normalize into a single pipeline. Nothing lives only in an app."
+           data-ka="სამივე არხი ერთ სისტემაში ერთიანდება. არაფერი რჩება მხოლოდ აპლიკაციაში.">All three channels normalize into a single pipeline. Nothing lives only in an app.</p>
+      </div>
+      <div class="step">
+        <div class="dot">3</div>
+        <h4 data-en="Auto-reply in 60 seconds" data-ka="პასუხი 60 წამში">Auto-reply in 60 seconds</h4>
+        <p data-en="In the same channel it arrived on. You get pinged. Nobody waits until Monday."
+           data-ka="იმავე არხში, საიდანაც შემოვიდა. შენ იღებ შეტყობინებას. აღარავინ ელოდება ორშაბათს.">In the same channel it arrived on. You get pinged. Nobody waits until Monday.</p>
+      </div>
+      <div class="step">
+        <div class="dot">4</div>
+        <h4 data-en="Deposit link" data-ka="გადახდის ბმული">Deposit link</h4>
+        <p data-en="Payze checkout in GEL. Cards, Apple Pay, Google Pay. One tap, not a bank number."
+           data-ka="Payze გადახდა ლარში. ბარათები, Apple Pay, Google Pay. ერთი შეხება, და არა საბანკო ანგარიში.">Payze checkout in GEL. Cards, Apple Pay, Google Pay. One tap, not a bank number.</p>
+      </div>
+      <div class="step">
+        <div class="dot">5</div>
+        <h4 data-en="Date reserved" data-ka="თარიღი დაჯავშნილია">Date reserved</h4>
+        <p data-en="Receipt, intake form, calendar invite — all in Asia/Tbilisi, so nothing lands on the wrong day."
+           data-ka="ქვითარი, კითხვარი, კალენდრის მოწვევა — ყველაფერი Asia/Tbilisi დროით, რომ არაფერი აირიოს.">Receipt, intake form, calendar invite — all in Asia/Tbilisi, so nothing lands on the wrong day.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ===================== WORK / FOUNDING SLOTS ===================== -->
+<section class="section" id="work">
+  <div class="wrap">
+    <p class="eyebrow" data-en="Work" data-ka="ნამუშევრები">Work</p>
+    <h2 class="h2" data-en="Two concept builds. One founding slot open."
+                   data-ka="ორი საკონცეპციო ვერსია. ერთი ადგილი ღიაა.">Two concept builds. One founding slot open.</h2>
+    <p class="lede"
+       data-en="We are new, so instead of faking a client list we built two portfolios to show exactly what we ship. Open one. The third slot is a real founding place — a reduced rate in exchange for the proof we need."
+       data-ka="ჩვენ ახლები ვართ, ამიტომ ყალბი კლიენტების სიის ნაცვლად ავაშენეთ ორი პორტფოლიო, რომ ზუსტად გაჩვენოთ, რას ვქმნით. გახსენი ერთ-ერთი. მესამე ადგილი კი რეალური დამფუძნებლის ადგილია — შემცირებული ფასი იმ მტკიცებულების სანაცვლოდ, რაც გვჭირდება.">We are new, so instead of faking a client list we built two portfolios to show exactly what we ship. Open one. The third slot is a real founding place — a reduced rate in exchange for the proof we need.</p>
+
+    <div class="slots">
+      <div class="slot">
+        <a class="ph grain" href="concept-wedding.html" data-slot="1">
+          <div class="slot-lbl"><span class="n">01</span><span class="t" data-en="Concept · view build" data-ka="კონცეპცია · ნახე">Concept · view build</span></div>
+          <span class="ph-tag">concept 01 →</span>
+        </a>
+        <div class="slot-meta">
+          <h4 data-en="Wedding / lifestyle" data-ka="ქორწილი / lifestyle">Wedding / lifestyle</h4>
+          <p data-en="Full story galleries, inquiry form, deposit booking." data-ka="სრული გალერეები, განაცხადის ფორმა, ავანსის ჯავშანი.">Full story galleries, inquiry form, deposit booking.</p>
+        </div>
+      </div>
+      <div class="slot">
+        <a class="ph grain" href="concept-commercial.html" data-slot="2">
+          <div class="slot-lbl"><span class="n">02</span><span class="t" data-en="Concept · view build" data-ka="კონცეპცია · ნახე">Concept · view build</span></div>
+          <span class="ph-tag">concept 02 →</span>
+        </a>
+        <div class="slot-meta">
+          <h4 data-en="Commercial / product" data-ka="კომერციული / პროდუქტი">Commercial / product</h4>
+          <p data-en="Case-study project pages, client wall, agency-ready." data-ka="პროექტების გვერდები, კლიენტების კედელი, სააგენტოსთვის მზად.">Case-study project pages, client wall, agency-ready.</p>
+        </div>
+      </div>
+      <div class="slot">
+        <div class="ph grain" data-slot="3">
+          <div class="slot-lbl"><span class="n">03</span><span class="t" data-en="Slot open" data-ka="ადგილი ღიაა">Slot open</span></div>
+          <span class="ph-tag">case study 03</span>
+        </div>
+        <div class="slot-meta">
+          <h4 data-en="Editorial / fine art" data-ka="ედიტორიალი / ხელოვნება">Editorial / fine art</h4>
+          <p data-en="Named series, print shop, exhibition listing." data-ka="სერიები, ბეჭდვის მაღაზია, გამოფენების სია.">Named series, print shop, exhibition listing.</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="offer">
+      <h3 data-en="What a founding slot costs you" data-ka="რა გიჯდება დამფუძნებლის ადგილი">What a founding slot costs you</h3>
+      <p data-en="A reduced build price, and three things back:"
+         data-ka="შემცირებული ფასი, და სამი რამ სანაცვლოდ:">A reduced build price, and three things back:</p>
+      <ul>
+        <li data-en="A published case study of your build." data-ka="გამოქვეყნებული ქეისი შენი პროექტის შესახებ.">A published case study of your build.</li>
+        <li data-en="A named testimonial — your name, your face." data-ka="შეფასება შენი სახელითა და ფოტოთი.">A named testimonial — your name, your face.</li>
+        <li data-en="Permission to publish your before/after inquiry numbers." data-ka="ნებართვა, გამოვაქვეყნოთ შენი განაცხადების რიცხვები — მანამდე და შემდეგ.">Permission to publish your before/after inquiry numbers.</li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<!-- ===================== PACKAGES ===================== -->
+<section class="section" id="packages">
+  <div class="wrap">
+    <p class="eyebrow" data-en="Packages" data-ka="პაკეტები">Packages</p>
+    <h2 class="h2" data-en="Fixed price. Fixed timeline. No hourly surprises."
+                   data-ka="ფიქსირებული ფასი. ფიქსირებული ვადა. საათობრივი სიურპრიზების გარეშე.">Fixed price. Fixed timeline. No hourly surprises.</h2>
+    <p class="lede"
+       data-en="A Tbilisi wedding photographer charges 1,500–4,000 ₾ for one job. Our entry package costs about one of those."
+       data-ka="თბილისელი ქორწილის ფოტოგრაფი ერთ სამუშაოში 1,500–4,000 ₾-ს იღებს. ჩვენი საწყისი პაკეტი დაახლოებით ერთი ასეთი სამუშაოს ფასია.">A Tbilisi wedding photographer charges 1,500–4,000 ₾ for one job. Our entry package costs about one of those.</p>
+
+    <div class="pkgs">
+      <!-- Launch -->
+      <div class="pkg">
+        <h3>Launch</h3>
+        <p class="tl" data-en="10 working days" data-ka="10 სამუშაო დღე">10 working days</p>
+        <div class="price">2,500<span class="cur">₾</span></div>
+        <p class="dep" data-en="50% to start · 50% on launch" data-ka="50% დასაწყისში · 50% გაშვებისას">50% to start · 50% on launch</p>
+        <ul>
+          <li data-en="Five-section site on our Webflow system" data-ka="ხუთსექციიანი საიტი ჩვენს Webflow სისტემაზე">Five-section site on our Webflow system</li>
+          <li data-en="Your photos, optimised for mobile" data-ka="შენი ფოტოები, ოპტიმიზებული მობილურისთვის">Your photos, optimised for mobile</li>
+          <li data-en="Georgian + English" data-ka="ქართული + ინგლისური">Georgian + English</li>
+          <li data-en="Gallery, about, contact" data-ka="გალერეა, ჩვენ შესახებ, კონტაქტი">Gallery, about, contact</li>
+          <li data-en="Inquiry form → your WhatsApp" data-ka="განაცხადის ფორმა → შენს WhatsApp-ზე">Inquiry form → your WhatsApp</li>
+          <li data-en="One revision round" data-ka="ერთი შესწორების რაუნდი">One revision round</li>
+        </ul>
+        <a href="#contact" class="btn btn-ghost" data-en="Start with Launch" data-ka="დაიწყე Launch-ით">Start with Launch</a>
+      </div>
+
+      <!-- Signature -->
+      <div class="pkg feat">
+        <span class="tag-pop" data-en="Most popular" data-ka="ყველაზე პოპულარული">Most popular</span>
+        <h3>Signature</h3>
+        <p class="tl" data-en="21 working days" data-ka="21 სამუშაო დღე">21 working days</p>
+        <div class="price">6,500<span class="cur">₾</span></div>
+        <p class="dep" data-en="50% to start · 50% on launch" data-ka="50% დასაწყისში · 50% გაშვებისას">50% to start · 50% on launch</p>
+        <ul>
+          <li data-en="Full portfolio with project / case pages" data-ka="სრული პორტფოლიო პროექტების გვერდებით">Full portfolio with project / case pages</li>
+          <li data-en="Taxonomy chosen with you — series, genre or client" data-ka="სტრუქტურა შენთან ერთად — სერიები, ჟანრი ან კლიენტი">Taxonomy chosen with you — series, genre or client</li>
+          <li data-en="Georgian + English CMS you control" data-ka="ქართული + ინგლისური CMS შენს კონტროლში">Georgian + English CMS you control</li>
+          <li data-en="Inquiry → WhatsApp + Instagram, auto-reply in 60s" data-ka="განაცხადი → WhatsApp + Instagram, პასუხი 60 წამში">Inquiry → WhatsApp + Instagram, auto-reply in 60s</li>
+          <li data-en="Payze deposit booking in GEL" data-ka="Payze ავანსის ჯავშანი ლარში">Payze deposit booking in GEL</li>
+          <li data-en="Proof blocks — clients, press, testimonials" data-ka="მტკიცებულების ბლოკები — კლიენტები, პრესა, შეფასებები">Proof blocks — clients, press, testimonials</li>
+          <li data-en="CMS training so you never call us to swap a photo" data-ka="CMS ტრენინგი, რომ ფოტოს შესაცვლელად აღარ დაგვირეკო">CMS training so you never call us to swap a photo</li>
+          <li data-en="Two revision rounds" data-ka="ორი შესწორების რაუნდი">Two revision rounds</li>
+        </ul>
+        <a href="#contact" class="btn btn-gold" data-en="Start with Signature" data-ka="დაიწყე Signature-ით">Start with Signature</a>
+      </div>
+
+      <!-- Studio -->
+      <div class="pkg">
+        <h3>Studio</h3>
+        <p class="tl" data-en="6–8 weeks" data-ka="6–8 კვირა">6–8 weeks</p>
+        <div class="price">13,000<span class="cur">₾</span></div>
+        <p class="dep" data-en="40% / 30% / 30%" data-ka="40% / 30% / 30%">40% / 30% / 30%</p>
+        <ul>
+          <li data-en="Everything in Signature" data-ka="ყველაფერი, რაც Signature-შია">Everything in Signature</li>
+          <li data-en="Custom design system, built for your work" data-ka="ინდივიდუალური დიზაინ-სისტემა შენი ნამუშევრისთვის">Custom design system, built for your work</li>
+          <li data-en="Print shop" data-ka="ბეჭდვის მაღაზია">Print shop</li>
+          <li data-en="Education / preset funnel" data-ka="სასწავლო / preset-ების ფანელი">Education / preset funnel</li>
+          <li data-en="Motion section" data-ka="ვიდეო სექცია">Motion section</li>
+          <li data-en="Analytics + booking dashboard" data-ka="ანალიტიკა + ჯავშნების დაფა">Analytics + booking dashboard</li>
+          <li data-en="60 days of post-launch optimisation" data-ka="60 დღიანი ოპტიმიზაცია გაშვების შემდეგ">60 days of post-launch optimisation</li>
+          <li data-en="Three revision rounds" data-ka="სამი შესწორების რაუნდი">Three revision rounds</li>
+        </ul>
+        <a href="#contact" class="btn btn-ghost" data-en="Talk about Studio" data-ka="ვისაუბროთ Studio-ზე">Talk about Studio</a>
+      </div>
+    </div>
+
+    <div class="addons">
+      <div class="addon">
+        <div class="amt">350 ₾<span style="font-size:13px;color:var(--faint)">/mo</span></div>
+        <div>
+          <h4 data-en="Care plan" data-ka="მოვლის გეგმა">Care plan</h4>
+          <p data-en="Hosting managed, two gallery updates a month, automation monitored, a conversion report every quarter."
+             data-ka="ჰოსტინგის მართვა, ორი გალერეის განახლება თვეში, ავტომატიზაციის მონიტორინგი და კვარტალური ანგარიში.">Hosting managed, two gallery updates a month, automation monitored, a conversion report every quarter.</p>
+        </div>
+      </div>
+      <div class="addon">
+        <div class="amt">150 ₾</div>
+        <div>
+          <h4 data-en="Portfolio audit" data-ka="პორტფოლიოს აუდიტი">Portfolio audit</h4>
+          <p data-en="A recorded 20-minute teardown of your current site and Instagram funnel. Credited in full against any build."
+             data-ka="20-წუთიანი ჩაწერილი ანალიზი შენი საიტისა და Instagram-ის შესახებ. თანხა სრულად ჩაითვლება ნებისმიერ პროექტში.">A recorded 20-minute teardown of your current site and Instagram funnel. Credited in full against any build.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ===================== PROCESS ===================== -->
+<section class="section" id="process">
+  <div class="wrap">
+    <p class="eyebrow" data-en="Process" data-ka="პროცესი">Process</p>
+    <h2 class="h2" data-en="Five steps, and you always know which one you're in."
+                   data-ka="ხუთი ნაბიჯი, და ყოველთვის იცი, რომელზე ხარ.">Five steps, and you always know which one you're in.</h2>
+
+    <div class="proc">
+      <div class="proc-row">
+        <span class="idx">01</span>
+        <h4 data-en="Audit — 150 ₾" data-ka="აუდიტი — 150 ₾">Audit — 150 ₾</h4>
+        <p data-en="Twenty recorded minutes on your current site and Instagram funnel. You keep the recording whether or not you hire us."
+           data-ka="ოცი ჩაწერილი წუთი შენს საიტსა და Instagram-ზე. ჩანაწერი შენთან რჩება, დაგვიქირავებ თუ არა.">Twenty recorded minutes on your current site and Instagram funnel. You keep the recording whether or not you hire us.</p>
+      </div>
+      <div class="proc-row">
+        <span class="idx">02</span>
+        <h4 data-en="Proposal &amp; scope" data-ka="შეთავაზება და მოცულობა">Proposal &amp; scope</h4>
+        <p data-en="One package, one price, one date. Written down before anyone pays anything."
+           data-ka="ერთი პაკეტი, ერთი ფასი, ერთი თარიღი. ჩაწერილი, სანამ ვინმე რამეს გადაიხდის.">One package, one price, one date. Written down before anyone pays anything.</p>
+      </div>
+      <div class="proc-row">
+        <span class="idx">03</span>
+        <h4 data-en="Deposit reserves your date" data-ka="ავანსი ჯავშნის შენს თარიღს">Deposit reserves your date</h4>
+        <p data-en="Paid through Payze in GEL. Your 150 ₾ audit comes straight off the total."
+           data-ka="გადახდა Payze-ით ლარში. შენი 150 ₾ აუდიტი პირდაპირ აკლდება ჯამს.">Paid through Payze in GEL. Your 150 ₾ audit comes straight off the total.</p>
+      </div>
+      <div class="proc-row">
+        <span class="idx">04</span>
+        <h4 data-en="Build" data-ka="შექმნა">Build</h4>
+        <p data-en="Ten working days to eight weeks depending on package. You see it in progress, not at the end."
+           data-ka="ათი სამუშაო დღიდან რვა კვირამდე, პაკეტის მიხედვით. ხედავ პროცესში, და არა ბოლოს.">Ten working days to eight weeks depending on package. You see it in progress, not at the end.</p>
+      </div>
+      <div class="proc-row">
+        <span class="idx">05</span>
+        <h4 data-en="Launch + CMS training" data-ka="გაშვება + CMS ტრენინგი">Launch + CMS training</h4>
+        <p data-en="We hand over a site you can update yourself. That is the point — you should not need us to change a photo."
+           data-ka="გადმოგცემთ საიტს, რომელსაც თავად განაახლებ. სწორედ ეს არის აზრი — ფოტოს შესაცვლელად ჩვენ არ უნდა გჭირდებოდეთ.">We hand over a site you can update yourself. That is the point — you should not need us to change a photo.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ===================== ABOUT ===================== -->
+<section class="section" id="about">
+  <div class="wrap about">
+    <div>
+      <p class="eyebrow" data-en="Why photographers only" data-ka="რატომ მხოლოდ ფოტოგრაფები">Why photographers only</p>
+      <h2 class="h2" data-en="A generalist studio would build you a website. We build you a portfolio."
+                     data-ka="ზოგადი სტუდია გაგიკეთებდა ვებგვერდს. ჩვენ გიკეთებთ პორტფოლიოს.">A generalist studio would build you a website. We build you a portfolio.</h2>
+      <p class="lede"
+         data-en="We studied how the strongest photography sites in the world are actually built — Porodina, Levon Biss, Mike Kelley, Amy Lombard, Jonathan Gregson — and found six patterns every one of them shares. Every site we ship starts from those six, not from a template marketplace."
+         data-ka="ჩვენ შევისწავლეთ, როგორ არის აგებული მსოფლიოს საუკეთესო ფოტოგრაფიული საიტები — Porodina, Levon Biss, Mike Kelley, Amy Lombard, Jonathan Gregson — და ვიპოვეთ ექვსი პატერნი, რომელიც ყველა მათგანს აქვს. ყველა ჩვენი საიტი სწორედ ამ ექვსით იწყება და არა შაბლონების მაღაზიიდან.">We studied how the strongest photography sites in the world are actually built — Porodina, Levon Biss, Mike Kelley, Amy Lombard, Jonathan Gregson — and found six patterns every one of them shares. Every site we ship starts from those six, not from a template marketplace.</p>
+      <p style="color:var(--faint);font-size:14px;margin-top:22px"
+         data-en="What we don't do:" data-ka="რას არ ვაკეთებთ:">What we don't do:</p>
+      <div class="no-list">
+        <span data-en="Restaurants" data-ka="რესტორნები">Restaurants</span>
+        <span data-en="Clinics" data-ka="კლინიკები">Clinics</span>
+        <span data-en="Crypto" data-ka="კრიპტო">Crypto</span>
+        <span data-en="Landing pages for anything" data-ka="ნებისმიერი ლენდინგი">Landing pages for anything</span>
+        <span data-en="Logos" data-ka="ლოგოები">Logos</span>
+      </div>
+    </div>
+    <div class="ph grain">
+      <span class="ph-tag">studio / founder portrait</span>
+    </div>
+  </div>
+</section>
+
+<!-- ===================== TESTIMONIALS ===================== -->
+<section class="section">
+  <div class="wrap">
+    <p class="eyebrow" data-en="Testimonials" data-ka="შეფასებები">Testimonials</p>
+    <h2 class="h2" data-en="These are empty on purpose."
+                   data-ka="ეს სპეციალურად ცარიელია.">These are empty on purpose.</h2>
+    <p class="lede"
+       data-en="We could have written three glowing quotes and attached stock photos to them. Photographers can spot a stock photo from across a room. These fill up as the founding slots close."
+       data-ka="შეგვეძლო სამი ქებით სავსე ციტატა დაგვეწერა და სტოკური ფოტოები მიგვება. ფოტოგრაფი სტოკურ ფოტოს ოთახის მეორე ბოლოდან ცნობს. ეს ადგილები შეივსება, როცა დამფუძნებლების ადგილები დაიხურება.">We could have written three glowing quotes and attached stock photos to them. Photographers can spot a stock photo from across a room. These fill up as the founding slots close.</p>
+
+    <div class="quotes">
+      <div class="quote">
+        <div class="mark">"</div>
+        <p data-en="Reserved for founding client 01." data-ka="დაცულია დამფუძნებელი კლიენტისთვის 01.">Reserved for founding client 01.</p>
+        <div class="who" data-en="— name, niche, city" data-ka="— სახელი, მიმართულება, ქალაქი">— name, niche, city</div>
+      </div>
+      <div class="quote">
+        <div class="mark">"</div>
+        <p data-en="Reserved for founding client 02." data-ka="დაცულია დამფუძნებელი კლიენტისთვის 02.">Reserved for founding client 02.</p>
+        <div class="who" data-en="— name, niche, city" data-ka="— სახელი, მიმართულება, ქალაქი">— name, niche, city</div>
+      </div>
+      <div class="quote">
+        <div class="mark">"</div>
+        <p data-en="Reserved for founding client 03." data-ka="დაცულია დამფუძნებელი კლიენტისთვის 03.">Reserved for founding client 03.</p>
+        <div class="who" data-en="— name, niche, city" data-ka="— სახელი, მიმართულება, ქალაქი">— name, niche, city</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ===================== FAQ ===================== -->
+<section class="section">
+  <div class="wrap">
+    <p class="eyebrow" data-en="FAQ" data-ka="კითხვები">FAQ</p>
+    <h2 class="h2" data-en="Frequently asked questions" data-ka="ხშირად დასმული კითხვები">Frequently asked questions</h2>
+
+    <div class="faq">
+      <details open>
+        <summary data-en="Do I need my photos ready before we start?"
+                 data-ka="უნდა მქონდეს ფოტოები მზად დაწყებამდე?">Do I need my photos ready before we start?</summary>
+        <div class="ans" data-en="You need the work selected, not edited for web. Choosing what goes in is the part only you can do, and it is usually what delays a build. We handle sizing, compression and delivery."
+                          data-ka="გჭირდება არჩეული ნამუშევრები და არა ვებისთვის დამუშავებული. არჩევა ის ნაწილია, რომელსაც მხოლოდ შენ გააკეთებ, და სწორედ ეს აჭიანურებს ხოლმე პროექტს. ზომებზე, შეკუმშვასა და ატვირთვაზე ჩვენ ვზრუნავთ.">You need the work selected, not edited for web. Choosing what goes in is the part only you can do, and it is usually what delays a build. We handle sizing, compression and delivery.</div>
+      </details>
+      <details>
+        <summary data-en="Can I update the galleries myself afterwards?"
+                 data-ka="შემიძლია გალერეები თავად განვაახლო?">Can I update the galleries myself afterwards?</summary>
+        <div class="ans" data-en="Yes — that is why we build on Webflow rather than something custom. Signature and Studio include CMS training. If you would rather not touch it, the care plan covers two gallery updates a month."
+                          data-ka="დიახ — სწორედ ამიტომ ვმუშაობთ Webflow-ზე და არა ინდივიდუალურ კოდზე. Signature და Studio მოიცავს CMS ტრენინგს. თუ არ გინდა თავად შეეხო, მოვლის გეგმა ფარავს ორ განახლებას თვეში.">Yes — that is why we build on Webflow rather than something custom. Signature and Studio include CMS training. If you would rather not touch it, the care plan covers two gallery updates a month.</div>
+      </details>
+      <details>
+        <summary data-en="I already have a site. Is that a problem?"
+                 data-ka="უკვე მაქვს საიტი. პრობლემაა?">I already have a site. Is that a problem?</summary>
+        <div class="ans" data-en="No, and it is often the better starting point — we can see what is already converting. Start with the 150 ₾ audit. Sometimes the honest answer is that your site is fine and your follow-up is what is broken."
+                          data-ka="არა, და ხშირად უკეთესი საწყისიც კია — ვხედავთ, რა მუშაობს უკვე. დაიწყე 150 ₾-იანი აუდიტით. ზოგჯერ პატიოსანი პასუხი ისაა, რომ საიტი კარგია და პრობლემა შენს რეაგირებაშია.">No, and it is often the better starting point — we can see what is already converting. Start with the 150 ₾ audit. Sometimes the honest answer is that your site is fine and your follow-up is what is broken.</div>
+      </details>
+      <details>
+        <summary data-en="Can you build me a print shop?"
+                 data-ka="შეგიძლიათ ბეჭდვის მაღაზია გამიკეთოთ?">Can you build me a print shop?</summary>
+        <div class="ans" data-en="Yes, in the Studio package — but let's be straight about it: Webflow's commerce is thin for a serious print operation. If you plan to sell prints at volume we will recommend a dedicated commerce layer and tell you what that adds to the cost before you commit."
+                          data-ka="დიახ, Studio პაკეტში — თუმცა გულახდილად: Webflow-ის კომერციული ნაწილი სუსტია სერიოზული ბეჭდვისთვის. თუ დიდი მოცულობით აპირებ გაყიდვას, შემოგთავაზებთ ცალკე კომერციულ გადაწყვეტას და წინასწარ გეტყვით, რამდენს დაამატებს ეს ღირებულებას.">Yes, in the Studio package — but let's be straight about it: Webflow's commerce is thin for a serious print operation. If you plan to sell prints at volume we will recommend a dedicated commerce layer and tell you what that adds to the cost before you commit.</div>
+      </details>
+      <details>
+        <summary data-en="How do payments work?"
+                 data-ka="როგორ მუშაობს გადახდა?">How do payments work?</summary>
+        <div class="ans" data-en="Everything in GEL through Payze — cards, Apple Pay, Google Pay. Launch and Signature are 50% to start and 50% on launch. Studio is 40/30/30. Invoices are issued for each stage."
+                          data-ka="ყველაფერი ლარში, Payze-ით — ბარათები, Apple Pay, Google Pay. Launch და Signature: 50% დასაწყისში, 50% გაშვებისას. Studio: 40/30/30. თითოეულ ეტაპზე გამოიწერება ინვოისი.">Everything in GEL through Payze — cards, Apple Pay, Google Pay. Launch and Signature are 50% to start and 50% on launch. Studio is 40/30/30. Invoices are issued for each stage.</div>
+      </details>
+      <details>
+        <summary data-en="Do you work with photographers outside Georgia?"
+                 data-ka="მუშაობთ საქართველოს გარეთ მყოფ ფოტოგრაფებთან?">Do you work with photographers outside Georgia?</summary>
+        <div class="ans" data-en="Yes, remotely — every site ships bilingual anyway. Calls run on Asia/Tbilisi time (UTC+4), so tell us your timezone and we will find a sane hour."
+                          data-ka="დიახ, დისტანციურად — ყველა საიტი ისედაც ორენოვანია. ზარები Asia/Tbilisi დროზეა (UTC+4), ამიტომ მოგვწერე შენი დროის სარტყელი და ვიპოვით მოსახერხებელ საათს.">Yes, remotely — every site ships bilingual anyway. Calls run on Asia/Tbilisi time (UTC+4), so tell us your timezone and we will find a sane hour.</div>
+      </details>
+      <details>
+        <summary data-en="What if I only need it fast and cheap?"
+                 data-ka="თუ მხოლოდ სწრაფად და იაფად მჭირდება?">What if I only need it fast and cheap?</summary>
+        <div class="ans" data-en="Then we are the wrong studio, and we would rather say so now than take your deposit. A template on Tilda or Wix will cost you a fraction of Launch. Come back when losing inquiries costs more than the site does."
+                          data-ka="მაშინ ჩვენ არასწორი სტუდია ვართ და გვირჩევნია ეს ახლა გითხრათ, ვიდრე ავანსი ავიღოთ. შაბლონი Tilda-ზე ან Wix-ზე Launch-ის ნაწილი დაგიჯდება. დაბრუნდი მაშინ, როცა დაკარგული განაცხადები საიტზე მეტი დაგიჯდება.">Then we are the wrong studio, and we would rather say so now than take your deposit. A template on Tilda or Wix will cost you a fraction of Launch. Come back when losing inquiries costs more than the site does.</div>
+      </details>
+    </div>
+  </div>
+</section>
+
+<!-- ===================== CONTACT ===================== -->
+<section class="section" id="contact">
+  <div class="wrap contact">
+    <div class="contact-side">
+      <p class="eyebrow" data-en="Contact" data-ka="კონტაქტი">Contact</p>
+      <h2 class="h2" data-en="Start with the audit."
+                     data-ka="დაიწყე აუდიტით.">Start with the audit.</h2>
+      <p data-en="150 ₾, twenty recorded minutes, credited in full if you build with us. If your site is already working, we will tell you that instead of selling you one."
+         data-ka="150 ₾, ოცი ჩაწერილი წუთი, სრულად ჩაითვლება, თუ ჩვენთან იმუშავებ. თუ შენი საიტი უკვე მუშაობს, ამას გეტყვით და არ მოგყიდით ახალს.">150 ₾, twenty recorded minutes, credited in full if you build with us. If your site is already working, we will tell you that instead of selling you one.</p>
+
+      <div class="ci">
+        <span class="k" data-en="Email" data-ka="ელფოსტა">Email</span>
+        <span class="v"><a href="mailto:hello@kadri.ge">hello@kadri.ge</a></span>
+      </div>
+      <div class="ci">
+        <span class="k">WhatsApp</span>
+        <span class="v"><a href="https://wa.me/995500000000">+995 5XX XX XX XX</a></span>
+      </div>
+      <div class="ci">
+        <span class="k">Instagram</span>
+        <span class="v"><a href="https://instagram.com/">@kadri.studio</a></span>
+      </div>
+      <div class="ci">
+        <span class="k" data-en="Hours" data-ka="საათები">Hours</span>
+        <span class="v" data-en="Mon–Fri, 10:00–19:00 · Asia/Tbilisi" data-ka="ორშ–პარ, 10:00–19:00 · Asia/Tbilisi">Mon–Fri, 10:00–19:00 · Asia/Tbilisi</span>
+      </div>
+    </div>
+
+    <form id="leadForm" novalidate>
+      <div class="f-row">
+        <div>
+          <label for="fname" data-en="Name" data-ka="სახელი">Name</label>
+          <input id="fname" name="name" type="text" required
+                 data-ph-en="Your name" data-ph-ka="შენი სახელი" placeholder="Your name">
+        </div>
+        <div>
+          <label for="fcontact" data-en="Email or WhatsApp" data-ka="ელფოსტა ან WhatsApp">Email or WhatsApp</label>
+          <input id="fcontact" name="contact" type="text" required
+                 data-ph-en="How we reach you" data-ph-ka="როგორ დაგიკავშირდეთ" placeholder="How we reach you">
+        </div>
+      </div>
+
+      <div class="f-row">
+        <div>
+          <label for="fsite" data-en="Current site or Instagram" data-ka="არსებული საიტი ან Instagram">Current site or Instagram</label>
+          <input id="fsite" name="site" type="text"
+                 data-ph-en="Leave blank if you have none" data-ph-ka="დატოვე ცარიელი, თუ არ გაქვს" placeholder="Leave blank if you have none">
+        </div>
+        <div>
+          <label for="ftier" data-en="Interested in" data-ka="მაინტერესებს">Interested in</label>
+          <select id="ftier" name="tier">
+            <option value="audit"     data-en="Portfolio audit — 150 ₾" data-ka="პორტფოლიოს აუდიტი — 150 ₾">Portfolio audit — 150 ₾</option>
+            <option value="launch"    data-en="Launch — 2,500 ₾"        data-ka="Launch — 2,500 ₾">Launch — 2,500 ₾</option>
+            <option value="signature" data-en="Signature — 6,500 ₾"     data-ka="Signature — 6,500 ₾">Signature — 6,500 ₾</option>
+            <option value="studio"    data-en="Studio — 13,000 ₾"       data-ka="Studio — 13,000 ₾">Studio — 13,000 ₾</option>
+            <option value="founding"  data-en="A founding slot"          data-ka="დამფუძნებლის ადგილი">A founding slot</option>
+          </select>
+        </div>
+      </div>
+
+      <div>
+        <label for="fmsg" data-en="What are you shooting, and what is not working?"
+                          data-ka="რას იღებ და რა არ მუშაობს?">What are you shooting, and what is not working?</label>
+        <textarea id="fmsg" name="message"
+                  data-ph-en="Weddings, commercial, editorial… and where inquiries are getting lost."
+                  data-ph-ka="ქორწილები, კომერციული, ედიტორიალი… და სად იკარგება განაცხადები."
+                  placeholder="Weddings, commercial, editorial… and where inquiries are getting lost."></textarea>
+      </div>
+
+      <div class="form-msg" id="formMsg" role="status" aria-live="polite"></div>
+
+      <button type="submit" class="btn btn-gold"
+              data-en="Send — we reply within one working day"
+              data-ka="გაგზავნა — ვპასუხობთ ერთ სამუშაო დღეში">Send — we reply within one working day</button>
+      <p class="form-note"
+         data-en="Submitting sends this straight into our pipeline. No newsletter, no drip sequence."
+         data-ka="გაგზავნა პირდაპირ ჩვენს სისტემაში შედის. არანაირი გაზეთი, არანაირი სპამი.">Submitting sends this straight into our pipeline. No newsletter, no drip sequence.</p>
+    </form>
+  </div>
+</section>
+
+<!-- ===================== FOOTER ===================== -->
+<footer>
+  <div class="wrap">
+    <div class="f-top">
+      <a href="#top" class="brand">KADRI<span>.</span></a>
+      <div class="f-links">
+        <a href="#work"     data-en="Work"     data-ka="ნამუშევრები">Work</a>
+        <a href="#packages" data-en="Packages" data-ka="პაკეტები">Packages</a>
+        <a href="#process"  data-en="Process"  data-ka="პროცესი">Process</a>
+        <a href="#about"    data-en="About"    data-ka="ჩვენ შესახებ">About</a>
+        <a href="#contact"  data-en="Contact"  data-ka="კონტაქტი">Contact</a>
+      </div>
+    </div>
+    <p data-en="A web studio for photographers. Tbilisi, Georgia. All prices in GEL, all times Asia/Tbilisi."
+       data-ka="ვებსტუდია ფოტოგრაფებისთვის. თბილისი, საქართველო. ყველა ფასი ლარშია, დრო — Asia/Tbilisi.">A web studio for photographers. Tbilisi, Georgia. All prices in GEL, all times Asia/Tbilisi.</p>
+  </div>
+</footer>
+
+<script>
+/* ============================================================
+   CONFIG — set this to your n8n production webhook URL.
+   While it is empty the form validates and reports honestly
+   instead of pretending a submission succeeded.
+   ============================================================ */
+const N8N_WEBHOOK_URL = "";
+
+/* ---------- language toggle ---------- */
+const TITLES = {
+  en: "KADRI — Portfolio sites that book clients",
+  ka: "KADRI — პორტფოლიო, რომელიც ჯავშნებს იღებს"
+};
+
+function setLang(lang){
+  document.documentElement.lang = lang;
+  document.title = TITLES[lang];
+
+  document.querySelectorAll("[data-en]").forEach(el=>{
+    const val = el.dataset[lang];
+    if(val) el.textContent = val;
+  });
+  document.querySelectorAll("[data-ph-en]").forEach(el=>{
+    const val = el.dataset[lang === "ka" ? "phKa" : "phEn"];
+    if(val) el.placeholder = val;
+  });
+  document.querySelectorAll(".lang button").forEach(b=>{
+    b.setAttribute("aria-pressed", String(b.dataset.lang === lang));
+  });
+
+  try{ localStorage.setItem("kadri-lang", lang); }catch(e){}
+}
+
+document.querySelectorAll(".lang button").forEach(btn=>{
+  btn.addEventListener("click", ()=> setLang(btn.dataset.lang));
+});
+
+let saved = "en";
+try{ saved = localStorage.getItem("kadri-lang") || "en"; }catch(e){}
+setLang(saved);
+
+/* ---------- mobile menu ---------- */
+const menuBtn = document.getElementById("menuBtn");
+const navLinks = document.getElementById("navLinks");
+menuBtn.addEventListener("click", ()=>{
+  const open = navLinks.classList.toggle("open");
+  menuBtn.setAttribute("aria-expanded", String(open));
+});
+navLinks.addEventListener("click", e=>{
+  if(e.target.tagName === "A"){
+    navLinks.classList.remove("open");
+    menuBtn.setAttribute("aria-expanded","false");
+  }
+});
+
+/* ---------- lead form ---------- */
+const form = document.getElementById("leadForm");
+const formMsg = document.getElementById("formMsg");
+
+const COPY = {
+  missing: {
+    en: "Please add your name and a way to reach you.",
+    ka: "გთხოვ, მიუთითე სახელი და საკონტაქტო ინფორმაცია."
+  },
+  sending: { en: "Sending…", ka: "იგზავნება…" },
+  ok: {
+    en: "Received. We reply within one working day, Asia/Tbilisi.",
+    ka: "მიღებულია. ვპასუხობთ ერთ სამუშაო დღეში, Asia/Tbilisi."
+  },
+  fail: {
+    en: "That didn't send. Email hello@kadri.ge and we'll pick it up there.",
+    ka: "გაგზავნა ვერ მოხერხდა. მოგვწერე hello@kadri.ge და იქ გაგრძელდება."
+  },
+  unwired: {
+    en: "Form is not connected yet — set N8N_WEBHOOK_URL at the top of the script tag to go live.",
+    ka: "ფორმა ჯერ არ არის დაკავშირებული — დააყენე N8N_WEBHOOK_URL სკრიპტის დასაწყისში."
+  }
+};
+
+function say(key, ok){
+  const lang = document.documentElement.lang === "ka" ? "ka" : "en";
+  formMsg.textContent = COPY[key][lang];
+  formMsg.classList.add("on");
+  formMsg.classList.toggle("ok", !!ok);
+}
+
+form.addEventListener("submit", async e=>{
+  e.preventDefault();
+  const data = Object.fromEntries(new FormData(form));
+
+  if(!data.name.trim() || !data.contact.trim()){ say("missing", false); return; }
+
+  data.locale = document.documentElement.lang;
+  data.submittedAt = new Date().toISOString();
+  data.timezone = "Asia/Tbilisi";
+  data.currency = "GEL";
+
+  if(!N8N_WEBHOOK_URL){ say("unwired", false); console.log("Lead payload:", data); return; }
+
+  say("sending", false);
+  try{
+    const res = await fetch(N8N_WEBHOOK_URL, {
+      method:"POST",
+      headers:{"Content-Type":"application/json"},
+      body: JSON.stringify(data)
+    });
+    if(!res.ok) throw new Error(res.status);
+    form.reset();
+    setLang(document.documentElement.lang);
+    say("ok", true);
+  }catch(err){
+    say("fail", false);
+  }
+});
+</script>
+</body>
+</html>
