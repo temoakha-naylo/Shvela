@@ -78,8 +78,9 @@ header.nav{
   backdrop-filter:blur(14px);border-bottom:1px solid var(--line);
 }
 .nav-in{display:flex;align-items:center;gap:24px;height:66px}
-.brand{font-size:16px;letter-spacing:.28em;font-weight:600;text-decoration:none;white-space:nowrap}
+.brand{display:inline-flex;align-items:center;gap:8px;font-size:16px;letter-spacing:.28em;font-weight:600;text-decoration:none;white-space:nowrap}
 .brand span{color:var(--gold)}
+.brand-mark{flex:none}
 .nav-links{display:flex;gap:26px;margin-left:auto}
 .nav-links a{
   font-size:14px;color:var(--muted);text-decoration:none;transition:color .18s;
@@ -129,6 +130,45 @@ header.nav{
   border-top:1px solid var(--line);padding:20px 0;font-size:13px;color:var(--faint);
 }
 .hero-strip b{color:var(--muted);font-weight:500}
+
+/* ---------- hero photo carousel ---------- */
+.hero-photos{position:relative;z-index:2;margin-top:52px}
+.hero-frame{
+  position:relative;aspect-ratio:16/9;border-radius:var(--radius);
+  overflow:hidden;border:1px solid var(--line);background:var(--bg2);
+}
+.hero-slide{
+  position:absolute;inset:0;opacity:0;transition:opacity .5s ease;
+  background:
+    radial-gradient(120% 100% at 25% 15%,rgba(200,164,101,.16),transparent 62%),
+    linear-gradient(158deg,#1d1d22 0%,#111114 55%,#0b0b0d 100%);
+}
+.hero-slide.active{opacity:1}
+/* viewfinder corner marks — bespoke hero treatment, distinct from .ph */
+.hero-slide::before,.hero-slide::after{
+  content:"";position:absolute;width:26px;height:26px;
+  border:1.5px solid var(--gold);opacity:.55;
+}
+.hero-slide::before{top:20px;left:20px;border-right:0;border-bottom:0}
+.hero-slide::after{bottom:20px;right:20px;border-left:0;border-top:0}
+.hero-slide-tag{
+  position:absolute;left:20px;bottom:20px;z-index:2;
+  font-size:11px;letter-spacing:.14em;text-transform:uppercase;color:var(--faint);
+}
+.hero-arrow{
+  position:absolute;top:50%;transform:translateY(-50%);z-index:3;
+  width:42px;height:42px;border-radius:50%;display:grid;place-items:center;
+  border:1px solid var(--line2);background:rgba(10,10,11,.55);backdrop-filter:blur(4px);
+  color:var(--faint);font-size:20px;line-height:1;cursor:pointer;transition:.18s;
+}
+.hero-arrow:hover{color:var(--gold);border-color:var(--gold)}
+.hero-arrow.prev{left:16px}
+.hero-arrow.next{right:16px}
+.hero-dots{position:absolute;bottom:18px;left:50%;transform:translateX(-50%);z-index:3;display:flex;gap:7px}
+.hero-dots button{
+  width:6px;height:6px;padding:0;border-radius:3px;border:0;background:var(--line2);cursor:pointer;transition:.2s;
+}
+.hero-dots button.active{width:18px;background:var(--gold)}
 
 /* ---------- trigger cards ---------- */
 .grid-3{display:grid;grid-template-columns:repeat(3,1fr);gap:18px;margin-top:44px}
@@ -326,6 +366,9 @@ footer{border-top:1px solid var(--line);padding:44px 0 56px;color:var(--faint);f
   .f-row{grid-template-columns:1fr}
   .hero{min-height:auto}
   .hero-in{padding:64px 0 48px}
+  .hero-arrow{width:36px;height:36px;font-size:17px}
+  .hero-arrow.prev{left:10px}
+  .hero-arrow.next{right:10px}
 }
 
 :focus-visible{outline:2px solid var(--gold);outline-offset:3px;border-radius:4px}
@@ -336,7 +379,12 @@ footer{border-top:1px solid var(--line);padding:44px 0 56px;color:var(--faint);f
 <!-- ===================== NAV ===================== -->
 <header class="nav">
   <div class="wrap nav-in">
-    <a href="#top" class="brand">KADRI<span>.</span></a>
+    <a href="#top" class="brand">
+      <svg class="brand-mark" width="22" height="24" viewBox="0 0 22 24" fill="none" aria-hidden="true">
+        <path d="M4 2v20M4 12.5 17 2M4 12.5 17 22" stroke="var(--gold)" stroke-width="3.4" stroke-linecap="square" stroke-linejoin="miter"/>
+      </svg>
+      KADRI<span>.</span>
+    </a>
 
     <nav class="nav-links" id="navLinks">
       <a href="#work"     data-en="Work"     data-ka="ნამუშევრები">Work</a>
@@ -386,6 +434,33 @@ footer{border-top:1px solid var(--line);padding:44px 0 56px;color:var(--faint);f
     <p class="hero-note"
        data-en="Credited in full against any build."
        data-ka="თანხა სრულად ჩაითვლება ნებისმიერ პროექტში.">Credited in full against any build.</p>
+
+    <!-- Photo slots: swap each .hero-slide's background with a real photo
+         as a data URI (url("data:image/...")) when the studio has work to show. -->
+    <div class="hero-photos">
+      <div class="hero-frame" id="heroFrame">
+        <div class="hero-slide active" data-slide="1">
+          <span class="hero-slide-tag">01 / 05 — <span data-en="drop real work here" data-ka="აქ ჩაანაცვლე რეალური ფოტო">drop real work here</span></span>
+        </div>
+        <div class="hero-slide" data-slide="2">
+          <span class="hero-slide-tag">02 / 05 — <span data-en="drop real work here" data-ka="აქ ჩაანაცვლე რეალური ფოტო">drop real work here</span></span>
+        </div>
+        <div class="hero-slide" data-slide="3">
+          <span class="hero-slide-tag">03 / 05 — <span data-en="drop real work here" data-ka="აქ ჩაანაცვლე რეალური ფოტო">drop real work here</span></span>
+        </div>
+        <div class="hero-slide" data-slide="4">
+          <span class="hero-slide-tag">04 / 05 — <span data-en="drop real work here" data-ka="აქ ჩაანაცვლე რეალური ფოტო">drop real work here</span></span>
+        </div>
+        <div class="hero-slide" data-slide="5">
+          <span class="hero-slide-tag">05 / 05 — <span data-en="drop real work here" data-ka="აქ ჩაანაცვლე რეალური ფოტო">drop real work here</span></span>
+        </div>
+
+        <button type="button" class="hero-arrow prev" id="heroPrev" aria-label="Previous photo">‹</button>
+        <button type="button" class="hero-arrow next" id="heroNext" aria-label="Next photo">›</button>
+
+        <div class="hero-dots" id="heroDots"></div>
+      </div>
+    </div>
   </div>
 </section>
 
@@ -857,7 +932,12 @@ footer{border-top:1px solid var(--line);padding:44px 0 56px;color:var(--faint);f
 <footer>
   <div class="wrap">
     <div class="f-top">
-      <a href="#top" class="brand">KADRI<span>.</span></a>
+      <a href="#top" class="brand">
+        <svg class="brand-mark" width="22" height="24" viewBox="0 0 22 24" fill="none" aria-hidden="true">
+          <path d="M4 2v20M4 12.5 17 2M4 12.5 17 22" stroke="var(--gold)" stroke-width="3.4" stroke-linecap="square" stroke-linejoin="miter"/>
+        </svg>
+        KADRI<span>.</span>
+      </a>
       <div class="f-links">
         <a href="#work"     data-en="Work"     data-ka="ნამუშევრები">Work</a>
         <a href="#packages" data-en="Packages" data-ka="პაკეტები">Packages</a>
@@ -911,6 +991,32 @@ document.querySelectorAll(".lang button").forEach(btn=>{
 let saved = "en";
 try{ saved = localStorage.getItem("kadri-lang") || "en"; }catch(e){}
 setLang(saved);
+
+/* ---------- hero photo carousel ---------- */
+(function(){
+  const slides = document.querySelectorAll("#heroFrame .hero-slide");
+  const dotsWrap = document.getElementById("heroDots");
+  if(!slides.length) return;
+
+  slides.forEach((_, i)=>{
+    const b = document.createElement("button");
+    b.type = "button";
+    b.setAttribute("aria-label", "Go to photo " + (i+1));
+    if(i === 0) b.classList.add("active");
+    b.addEventListener("click", ()=> show(i));
+    dotsWrap.appendChild(b);
+  });
+  const dots = dotsWrap.querySelectorAll("button");
+
+  let current = 0;
+  function show(i){
+    current = (i + slides.length) % slides.length;
+    slides.forEach((s,idx)=> s.classList.toggle("active", idx === current));
+    dots.forEach((d,idx)=> d.classList.toggle("active", idx === current));
+  }
+  document.getElementById("heroPrev").addEventListener("click", ()=> show(current - 1));
+  document.getElementById("heroNext").addEventListener("click", ()=> show(current + 1));
+})();
 
 /* ---------- mobile menu ---------- */
 const menuBtn = document.getElementById("menuBtn");
